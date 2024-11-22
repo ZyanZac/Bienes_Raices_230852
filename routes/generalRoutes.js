@@ -3,10 +3,12 @@ import express from 'express';
 
 const router=express.Router()
 
+//home
 router.get("/", function(req, res){
     res.send("Hola Mundo desde Node, a través del Navegador.");
 });
 
+//QuienSoy
 router.get("/QuienSoy", function(req, res){
     res.json({"estudiante": "Zyanya Ahuachtli Zacatenco Pedroza",
         "carrera": "TI DSM",
