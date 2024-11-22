@@ -1,6 +1,8 @@
 //ECMA Script 6
 //CommonJS
 import express from 'express';
+import generalRoutes from './routes/generalRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 //const express=require('express'); //Declaración que permitirá entrar al protocolo http y leer páginas. Importar la librería para crear un servidor web
 //Instanciar nuestra aplicación web
@@ -13,7 +15,7 @@ app.listen(port, ()=>{
 });
 
 //Probamos las rutas para poder presentar mensajes al usuario a través del navegador
-app.get("/", function(req, res){
+/*app.get("/", function(req, res){
     res.send("Hola Mundo desde Node, a través del Navegador.");
 });
 
@@ -24,4 +26,9 @@ app.get("/QuienSoy", function(req, res){
         "grupo": "B",
         "asignatura": "Aplicaciones Web Orientada a Servicios (AWOS)"
     });
-});
+});*/
+
+
+//Routing - Enrutamiento
+app.use('/', generalRoutes);
+app.use('/usuario/', userRoutes);
