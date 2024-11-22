@@ -1,0 +1,38 @@
+{
+  "name": "mx.edu.utxj.ti.awos.bienes-raices",
+  "version": "1.0.0",
+  "description": "Proyecto de clase para la Unidad 2 de la asignatura AWOS, utilizando Node.js",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "saluda": "node saluda.js",
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZyanZac/Bienes_Raices_230852.git"
+  },
+  "keywords": [
+    "MVC",
+    "Express",
+    "Sequelize",
+    "MySQL",
+    "Tailwind",
+    "Nodemon",
+    "NodeJS",
+    "Mailtrap",
+    "JWT"
+  ],
+  "author": "Zyanya Ahuachtli Zacatenco Pedroza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZyanZac/Bienes_Raices_230852/issues"
+  },
+  "homepage": "https://github.com/ZyanZac/Bienes_Raices_230852#readme",
+  "dependencies": {
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
