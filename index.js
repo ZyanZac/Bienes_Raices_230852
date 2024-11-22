@@ -1,5 +1,8 @@
-const express=require('express'); //Declaración que permitirá entrar al protocolo http y leer páginas. Importar la librería para crear un servidor web
+//ECMA Script 6
+//CommonJS
+import express from 'express';
 
+//const express=require('express'); //Declaración que permitirá entrar al protocolo http y leer páginas. Importar la librería para crear un servidor web
 //Instanciar nuestra aplicación web
 const app=express();
 
