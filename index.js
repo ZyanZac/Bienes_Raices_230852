@@ -13,6 +13,10 @@ app.set('view engine', 'pug') //Quien va a manejar las listas
 app.set('views', './views') //Definir dónde va a estar la carpeta de vistas
 
 
+//Definir la carpeta pública de recursos estáticos (assets). Va a poder leer todo lo que se encuentra aquí, mas no escribir.
+app.use(express.static('./public'));
+
+
 //Configuramos nuestro servidor web 
 const port=3000;
 app.listen(port, ()=>{
