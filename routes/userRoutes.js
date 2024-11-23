@@ -2,7 +2,7 @@ import express from 'express';
 
 const router=express.Router();
 
-import {formularioLogin, formularioRegister, formularioPasswordRecovery} from '../controllers/userController.js';
+import {formularioLogin, formularioRegister, formularioPasswordRecovery, createNewUser, confirm} from '../controllers/userController.js';
 
 
 
@@ -18,9 +18,8 @@ router.get("/busquedaPorID/:id", function(request, response){//Todas las peticio
 
 //POST - Se utiliza para el envío de datos e información del cliente al servidor
 //La aplicación es newUser
-router.post("/newUser/:name/:email/:password", function(req, res){
-    res.send(`Se ha solicitado la creación de un nuevo usuario de nombre: ${req.params.name}, asociado al correo electrónico: ${req.params.email} con la contraseña: ${req.params.password}`);
-});
+router.post("/newUser", createNewUser)
+
 
 
 //PUT - Se utiliza para la actualización total de información del cliente al servidor
@@ -63,9 +62,13 @@ router.delete("/deleteUser/:email", function(request, response){
 
 
 router.get("/login", formularioLogin) //Middelware, quien guía, asigna la tarea a alguien más
+
 router.get("/createAccount", formularioRegister)
+router.post("/createAccount", createNewUser)
+
 router.get("/passwordRecovery", formularioPasswordRecovery)
 
+router.get("/confirmAccount/:token", confirm) //("frontend", backend)
 
 
 

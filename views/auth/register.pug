@@ -2,32 +2,45 @@ extends ../layout/index
 
 block contenido 
     .py-10 
-        h2.text-center.font-extrabold.my-10.text-4xl.text-indigo-600 Bienes
+        h2.text-center.font-extrabold.my-10.text-4xl.text-cute_purple-100 Bienes
             span.font-normal.text-black Raíces
         h2.text-center.font-extrabold.text-2xl=page
 
+
+
+        if errors
+            each error in errors
+                <div class="bg-cute_purple-100 border border-cute_purple-300 text-white px-2 py-1 rounded relative max-w-md mx-auto my-2" role="alert">
+                        p.bg-cute_purple-100.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-bold= error.msg
+                        <span class="absolute top-0 bottom-0 right-0 px-1 py-1">
+                            <svg class="fill-current h-4 w-4 text-white" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Cerrar</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+                        </span>
+                </div>
+                    
+
+
         .mt-8.mx-auto.max-w-md
             .bg-white.py-8.px-4.shadow
-                form.space-y-5.px-6
+                form(method="POST" action='/auth/newUser' noValidate).space-y-5.px-6
                     div 
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.font-nold Nombre Completo:
-                        input#name.w-full.px-3.py-2.border.border-gray-300.rounded-xl.placeholder-gray-400(type="text" placeholder="Ingresa tu nombre con apellidos" name="nombre_usuario")
+                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-nold Nombre Completo:
+                        input#name.w-full.px-3.py-2.border.border-cute_purple-100.rounded-xl.placeholder-cute_purple-300(type="text" placeholder="Ingresa tu nombre con apellidos" name="nombre_usuario")
 
                     div
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.font-nold Correo Electrónico:
-                        input#email.w-full.px-3.py-2.border.border-gray-300.rounded-xl.placeholder-gray-400(type="email" placeholder="ej. usuario@dominio.com" email="correo")
+                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-nold Correo Electrónico:
+                        input#email.w-full.px-3.py-2.border.border-cute_purple-100.rounded-xl.placeholder-cute_purple-300(type="email" placeholder="Ej. usuario@dominio.com" name="correo")
 
                     div 
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.font-nold Contraseña:
-                        input#password.w-full.px-3.py-2.border.border-gray-300.rounded-xl.placeholder-gray-400(type="password" placeholder="Mínimo de 8 carácteres." password="pass_usuario")
+                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-nold Contraseña:
+                        input#password.w-full.px-3.py-2.border.border-cute_purple-100.rounded-xl.placeholder-cute_purple-300(type="password" placeholder="Mínimo de 8 carácteres." name="pass_usuario")
 
                     div 
-                        label.block.text-sm.uppercase.text-gray-500.mb-2.font-nold Confirmación de Contraseña:
-                        input#password-confirm.w-full.px-3.py-2.border.border-gray-300.rounded-xl.placeholder-gray-400(type="password" placeholder="Repite la contraseña." password-confirm="pass2_usuario")
+                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-nold Confirmación de Contraseña:
+                        input#password-confirm.w-full.px-3.py-2.border.border-cute_purple-100.rounded-xl.placeholder-cute_purple-300(type="password" placeholder="Repite la contraseña." name="pass2_usuario")
 
                     div.flex.items-center.justify-between 
-                        a.text-gray-500.text-xs(href="/auth/login" class="hover:underline decoration-2 hover:decoration-red-600") ¿Ya tienes cuenta? Inicia Sesión 
-                        a.text-gray-500.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-red-600") Olvidé mi contraseña  
+                        a.text-gray-500.text-xs(href="/auth/login" class="hover:underline decoration-2 hover:decoration-cute_purple-200") ¿Ya tienes cuenta? Inicia Sesión 
+                        a.text-gray-500.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-cute_purple-200") Olvidé mi contraseña  
 
-                    input(class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="submit" value="Crear Cuenta")
+                    input(class="w-full bg-cute_purple-100 hover:bg-cute_purple-200 text-white font-bold py-3 cursor-pointer" type="submit" value="Crear Cuenta")
 
