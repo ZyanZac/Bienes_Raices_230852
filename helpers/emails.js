@@ -21,14 +21,23 @@ const emailAfterRegister = async (newUserData) => {
     await transport.sendMail({
         from: 'bienes_raices_230852.com',
         to: email,
-        subject: 'Bienvenido/a al BienesRaices_230852',
-        text: 'Ya casi puedes usar nuestra plataforma, sólo falta...',
-        html: `<p>Hola, <span style="color: violet"> ${name}</span>, <br>
-        Bienvenido a la plataforma de BienesRaíces, el sitio seguro donde podrás buscar, comprar y ofertar propiedades a través de Internet.
-        <br>
-        <p>Ya sólo necesitamos que confirmes la cuenta que creaste, dando click a la siguiente liga: <a href="${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}/auth/confirmAccount/${token}">Confirmar cuenta</a></p>
-        <br>
-        <p>Si tu no has creado la cuenta, ignora este mensaje.</p>`
+        subject: 'Confirmación de email',
+        text: 'Para poder acceder a la plataforma necesitarás...',
+        html: `<h1><span style="color: #9D8DF1">¡Estás a un paso de poder acceder a tu cuenta en</span> <span style="color: #573280"> Bienes Raíces!</span></h1>
+        <img src="https://blog.cliengo.com/wp-content/uploads/2023/01/BLOG_Imagenes-destacadas-https___blog.cliengo.com_que-es-bienes-raices_.png" width="100%">
+        <div style="background-color: #B8CDF8; width:100%; padding:20px;>
+
+            
+            <p style="font-family: Arial, Helvetica, sans-serif;">Bienvenido, <b><span style="color: #573280"> ${name}</span></b>. Estamos contentos de que haya decidio unirse a nuestra página de Bienes Raíces, el mejor sitio donde podrás buscar, comprar y ofertar propiedades a través de Internet.
+            <br>
+            <center><img src="https://img.freepik.com/vector-premium/conjunto-bienes-raices_18591-75350.jpg"></center>
+            <p style="font-family: Arial, Helvetica, sans-serif;">Haz click en el siguiente enlace para poder acceder a tu cuenta y poder comprar y/o vender propiedades:</p><br>
+            <center><h1><a href="${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}/auth/confirmAccount/${token}">Confirmar cuenta</a></h1></center>
+            <br>
+            <p style="font-family: Arial, Helvetica, sans-serif;">Si tu no has creado la cuenta, ignora este mensaje.</p><br>
+        </div>
+        <h2>Atentamente:</h2>
+        <h3 style="font-family: Arial, Helvetica, sans-serif;"><img src="https://img.freepik.com/fotos-premium/logotipo-bienes-raices-casa-fondo-blanco-ilustracion-vectorial_1015980-641956.jpg?w=1060" width="5%"><span style="color: #9D8DF1">Equipo de Bienes Raíces</span></h3>`
     })
 }
 

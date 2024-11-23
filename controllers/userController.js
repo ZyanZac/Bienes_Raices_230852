@@ -4,6 +4,7 @@ import User from '../models/User.js'
 import { generateID } from '../helpers/tokens.js'
 import { removeTicks } from "sequelize/lib/utils"
 import { emailAfterRegister } from '../helpers/emails.js'
+import { where } from "sequelize"
 
 
 const formularioLogin=(request, response)=>{
@@ -15,7 +16,8 @@ const formularioLogin=(request, response)=>{
 
 const formularioRegister=(request, response)=>{
     response.render('auth/register', {
-        page: "Crea una nueva cuenta"
+        page: "Crea una nueva cuenta",
+        csrfToken: request.csrfToken()
     })
 }
 
@@ -43,6 +45,7 @@ const createNewUser=async(request, response)=>{
         //Errores
         return response.render('auth/register', {
             page: 'Error al intentar crear la cuenta',
+            csrfToken: request.csrfToken(),
             errors: result.array(),
             user:{
                 name: request.body.nombre_usuario,
@@ -65,6 +68,7 @@ const createNewUser=async(request, response)=>{
     if(existingUser){
         return response.render("auth/register", {
             page: 'Error al intentar crear la cuenta de usuario.',
+            csrfToken: request.csrfToken(),
             errors:[{msg: `El usuario ${email} ya se encuentra registrado.`}],
             user:{
                 name:name
@@ -81,6 +85,7 @@ const createNewUser=async(request, response)=>{
     //Registrando los datos en la base de datos
     const newUser=await User.create({ //await que espere
         name: request.body.nombre_usuario, 
+        date: request.body.date_birth,
         email: request.body.correo,
         password: request.body.pass_usuario,
         token: generateID()
@@ -107,12 +112,37 @@ const createNewUser=async(request, response)=>{
 }
 
 
-const confirm = (request, response) => {
+const confirm = async (request, response) => {
     //Validar token - si existe
     //Confirmar cuenta
     //Enviar mensje de confirmación de cuenta
     const {token} = request.params 
     console.log(`Intentando confirmar la cuenta con el token: ${token}`)
+
+    //Verificar si el token es válido
+    const user = await User.findOne({where: {token}})
+    console.log(User)
+
+    if(!user){
+        return response.render('auth/confirmAccount', {
+            page: 'Error al confirmar la cuenta.',
+            message: `Hubo un error al confirmar la cuenta, intenta de nuevo.`,
+            error: true
+        })
+    }
+
+    //Confirmar la cuenta
+    user.token=null;
+    user.confirmado=true;
+    await user.save();
+
+
+    return response.render('auth/confirmAccount', {
+            page: 'Cuenta confirmada.',
+            message: `La cuenta se confirmó correctamente`,
+        })
+
+
 }
 
 

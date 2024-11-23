@@ -1,0 +1,13 @@
+extends ../layout/index
+
+block contenido 
+    .py-10 
+        h2.text-center.font-extrabold.my-10.text-4xl.text-cute_purple-100 Bienes
+            span.font-normal.text-black Raíces
+        h2.text-center.font-extrabold.text-2xl=page
+
+    div(class="bg-cute_purple-200 shadow py-8 px-4 rounded-lg max-w-md mx-auto")
+        p( class= error ? 'bg-cute_purple-100' : 'bg-cute_purple-200' ).py-2.py-5.rounded-lg.w-full.font-bold.text-center.text-white.uppercase=message
+
+        if !error
+            a(href="/auth/login" class="text-center font-bold text-sm text-cute_purple-100 uppercase mt-10 block") Ya puedes iniciar sesión 
