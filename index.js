@@ -8,6 +8,11 @@ import userRoutes from './routes/userRoutes.js';
 //Instanciar nuestra aplicación web
 const app=express();
 
+//Habilitar Pug
+app.set('view engine', 'pug') //Quien va a manejar las listas
+app.set('views', './views') //Definir dónde va a estar la carpeta de vistas
+
+
 //Configuramos nuestro servidor web 
 const port=3000;
 app.listen(port, ()=>{
@@ -31,4 +36,6 @@ app.get("/QuienSoy", function(req, res){
 
 //Routing - Enrutamiento
 app.use('/', generalRoutes);
-app.use('/usuario/', userRoutes);
+//app.use('/usuario/', userRoutes);
+app.use('/auth/', userRoutes);
+

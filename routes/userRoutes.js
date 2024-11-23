@@ -2,6 +2,9 @@ import express from 'express';
 
 const router=express.Router();
 
+import {formularioLogin, formularioRegister, formularioPasswordRecovery} from '../controllers/userController.js';
+
+
 
 //GET - Se utiliza para la lectura de datos e información del servidor al cliente.
 //EndPoints - Son las rutas para acceder a las secciones o funciones de nuestra aplicación web, se define el flujo de la aplicación y tiene dos componentes
@@ -47,6 +50,21 @@ router.delete("/deleteUser/:email", function(request, response){
     response.send(`Se ha solicitado la eliminación del usuario al correo: ${request.params.email}`);
 });
 
+
+
+
+
+
+/*router.get("/login", function(request, response){
+    response.render("auth/login", {
+        autenticado: true //JSON
+    })
+})*/
+
+
+router.get("/login", formularioLogin) //Middelware, quien guía, asigna la tarea a alguien más
+router.get("/createAccount", formularioRegister)
+router.get("/passwordRecovery", formularioPasswordRecovery)
 
 
 
