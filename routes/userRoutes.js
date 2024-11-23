@@ -63,8 +63,12 @@ router.delete("/deleteUser/:email", function(request, response){
 
 
 router.get("/login", formularioLogin) //Middelware, quien guía, asigna la tarea a alguien más
+
 router.get("/createAccount", formularioRegister)
+router.post("/createAccount", registrar)
+
 router.get("/passwordRecovery", formularioPasswordRecovery)
+
 
 
 
