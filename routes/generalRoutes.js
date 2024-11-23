@@ -8,6 +8,12 @@ router.get("/", function(req, res){
     res.send("Hola Mundo desde Node, a través del Navegador.");
 });
 
+
+/*router.get("/login", function(req, res){
+    res.render('auth/login');
+});*/
+
+
 //QuienSoy
 router.get("/QuienSoy", function(req, res){
     res.json({"estudiante": "Zyanya Ahuachtli Zacatenco Pedroza",
