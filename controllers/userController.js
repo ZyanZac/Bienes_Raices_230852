@@ -126,7 +126,7 @@ const confirm = async (request, response) => {
     if(!user){
         return response.render('auth/confirmAccount', {
             page: 'Error al confirmar la cuenta.',
-            message: `Hubo un error al confirmar la cuenta, intenta de nuevo.`,
+            message: `Hubo un error al confirmar la cuenta, inténtalo de nuevo.`,
             error: true
         })
     }
@@ -139,7 +139,7 @@ const confirm = async (request, response) => {
 
     return response.render('auth/confirmAccount', {
             page: 'Cuenta confirmada.',
-            message: `La cuenta se confirmó correctamente`,
+            message: `La cuenta se confirmó correctamente. Inicia sesión para acceder a la cuenta.`,
         })
 
 

@@ -4,7 +4,7 @@ block contenido
     .py-10 
         h2.text-center.font-extrabold.my-10.text-4xl.text-cute_purple-100 Bienes
             span.font-normal.text-black Raíces
-        h2.text-center.font-extrabold.text-2xl=page
+        h2.text-center.font-extrabold.text-2xl.font-mono=page
 
 
         if errors
@@ -33,28 +33,28 @@ block contenido
                 form(method="POST" action='/auth/newUser' noValidate).space-y-5.px-6
                     input(type="hidden" name="_csrf" value= csrfToken)
                     div 
-                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-nold Nombre Completo:
+                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-bold.font-mono Nombre Completo:
                         input#name.w-full.px-3.py-2.border.border-cute_purple-100.rounded-xl.placeholder-cute_purple-300(type="text" placeholder="Ingresa tu nombre con apellidos" name="nombre_usuario")
 
                     div 
-                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-nold Fecha de Nacimiento:
+                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-bold.font-mono Fecha de Nacimiento:
                         input#date.w-full.px-3.py-2.border.border-cute_purple-100.rounded-xl.placeholder-cute_purple-300(type="date" name="date_birth")
 
                     div
-                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-nold Correo Electrónico:
+                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-bold.font-mono Correo Electrónico:
                         input#email.w-full.px-3.py-2.border.border-cute_purple-100.rounded-xl.placeholder-cute_purple-300(type="email" placeholder="Ej. usuario@dominio.com" name="correo")
 
                     div 
-                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-nold Contraseña:
+                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-bold.font-mono Contraseña:
                         input#password.w-full.px-3.py-2.border.border-cute_purple-100.rounded-xl.placeholder-cute_purple-300(type="password" placeholder="Mínimo de 8 carácteres." name="pass_usuario")
 
                     div 
-                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-nold Confirmación de Contraseña:
+                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-bold.font-mono Confirmación de Contraseña:
                         input#password-confirm.w-full.px-3.py-2.border.border-cute_purple-100.rounded-xl.placeholder-cute_purple-300(type="password" placeholder="Repite la contraseña." name="pass2_usuario")
 
                     div.flex.items-center.justify-between 
-                        a.text-gray-500.text-xs(href="/auth/login" class="hover:underline decoration-2 hover:decoration-cute_purple-200") ¿Ya tienes cuenta? Inicia Sesión 
-                        a.text-gray-500.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-cute_purple-200") Olvidé mi contraseña  
+                        a.text-cute_purple-300.text-xs(href="/auth/login" class="hover:underline decoration-2 hover:decoration-cute_purple-200") ¿Ya tienes cuenta? Inicia Sesión 
+                        a.text-cute_purple-300.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-cute_purple-200") Olvidé mi contraseña  
 
-                    input(class="w-full bg-cute_purple-100 hover:bg-cute_purple-200 text-white font-bold py-3 cursor-pointer" type="submit" value="Crear Cuenta")
+                    input(class="w-full bg-cute_purple-100 hover:bg-cute_purple-200 text-white font-bold py-3 cursor-pointer font-mono" type="submit" value="Crear Cuenta")
 
