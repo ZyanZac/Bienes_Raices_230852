@@ -4,24 +4,24 @@ block contenido
     .py-10 
         h2.text-center.font-extrabold.my-10.text-4xl.text-cute_purple-100 Bienes
             span.font-normal.text-black Raíces
-        h2.text-center.font-extrabold.text-2xl=page
+        h2.text-center.font-extrabold.text-2xl.font-mono=page
 
         .mt-8.mx-auto.max-w-md
             .bg-white.py-8.px-4.shadow
                 form.space-y-5.px-6
                     div
-                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-nold Correo Electrónico:
+                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-bold.font-mono Correo Electrónico:
                         input#email.w-full.px-3.py-2.border.border-cute_purple-100.rounded-xl.placeholder-cute_purple-300(type="email" placeholder="Ej. usuario@dominio.com" name="correo")
 
                     div 
-                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-nold Contraseña:
+                        label.block.text-sm.uppercase.text-cute_purple-100.mb-2.font-bold.font-mono Contraseña:
                         input#password.w-full.px-3.py-2.border.border-cute_purple-100.rounded-xl.placeholder-cute_purple-300(type="password" placeholder="Escribe tu contraseña." name="pass_usuario")
 
                     div.flex.items-center.justify-between 
-                        a.text-gray-500.text-xs(href="/auth/createAccount" class="hover:underline decoration-2 hover:decoration-cute_purple-200") ¿No tienes cuenta? Crear Cuenta 
-                        a.text-gray-500.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-cute_purple-200") Olvidé mi contraseña  
+                        a.text-cute_purple-300.text-xs(href="/auth/createAccount" class="hover:underline decoration-2 hover:decoration-cute_purple-200") ¿No tienes cuenta? Crear Cuenta 
+                        a.text-cute_purple-300.text-xs(href="/auth/passwordRecovery" class="hover:underline decoration-2 hover:decoration-cute_purple-200") Olvidé mi contraseña  
 
-                    input(class="w-full bg-cute_purple-100 hover:bg-cute_purple-200 text-white font-bold py-3 cursor-pointer" type="submit" value="Ingresar")
+                    input(class="w-full bg-cute_purple-100 hover:bg-cute_purple-200 text-white font-bold py-3 cursor-pointer font-mono" type="submit" value="Ingresar")
 
 
                     

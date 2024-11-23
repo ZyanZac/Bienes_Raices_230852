@@ -1,6 +1,8 @@
 //ECMA Script 6
 //CommonJS
 import express from 'express';
+import csrf from 'csurf'
+import cookieParser from 'cookie-parser';
 import generalRoutes from './routes/generalRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import db from './db/config.js';
@@ -31,6 +33,14 @@ app.listen(port, ()=>{
 
 //Habilitar la conexión de lectura desde formularios.
 app.use(express.urlencoded({encoded: true}))
+
+
+//Habilitar Cookie Parser
+app.use(cookieParser())
+
+//Habilitar CSRF
+app.use(csrf({cookie: true}))
+
 
 //Conexión a la base de datos
 //Programación asíncrona se hace simultáneamente. La conexión la hace sqlite.

@@ -10,6 +10,10 @@ const User=db.define('tb_users', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    date: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
