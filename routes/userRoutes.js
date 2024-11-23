@@ -2,7 +2,7 @@ import express from 'express';
 
 const router=express.Router();
 
-import {formularioLogin, formularioRegister, formularioPasswordRecovery} from '../controllers/userController.js';
+import {formularioLogin, formularioRegister, formularioPasswordRecovery, registrar} from '../controllers/userController.js';
 
 
 
