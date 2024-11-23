@@ -1,6 +1,7 @@
-import { request, response } from "express"
+import { request, response } from "express" 
 import { check, validationResult } from 'express-validator' //check para checar, validator para verificar la validación
 import User from '../models/User.js'
+import { generateID } from '../helpers/tokens.js'
 import { removeTicks } from "sequelize/lib/utils"
 
 
@@ -42,11 +43,37 @@ const createNewUser=async(request, response)=>{
         return response.render('auth/register', {
             page: 'Error al intentar crear la cuenta',
             errors: result.array(),
+            user:{
+                name: request.body.nombre_usuario,
+                email: request.email
+            }
         })
-    } else {
+    } /*else {
         console.log("Registrando a nuevo usuario");
         console.log(request.body);
+    }*/
+
+    //Desestructuración de los parámetros del request
+    const {nombre_usuario:name, correo:email, pass_usuario:password} = request.body
+
+    //Verificarque el usuario no existe previamente en la base de datos
+    const existingUser=await User.findOne({where: {email}})
+
+    console.log(existingUser);
+
+    if(existingUser){
+        return response.render("auth/register", {
+            page: 'Error al intentar crear la cuenta de usuario.',
+            errors:[{msg: `El usuario ${email} ya se encuentra registrado.`}],
+            user:{
+                name:name
+            }
+        })
     }
+
+    console.log("Registrando a nuevo usuario");
+    console.log(request.body);
+
 
     //response.json(resultado.array());
 
@@ -55,12 +82,24 @@ const createNewUser=async(request, response)=>{
         name: request.body.nombre_usuario, 
         email: request.body.correo,
         password: request.body.pass_usuario,
+        token: generateID()
     });
-    response.json(newUser);
+
+    //Mostrar mensaje de confirmación 
+    response.render('templates/message', {
+        page: 'Cuenta creada correctamente',
+        message: 'Hemos enviado un correo de confirmación a: ---- para la confirmación de la cuenta.'
+    })
+
+
+    //response.json(newUser);
+    //return;
 }
 
 
-
-
 export {formularioLogin, formularioRegister, formularioPasswordRecovery, createNewUser}
+
+
+
+
 

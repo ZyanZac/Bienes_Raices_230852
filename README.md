@@ -15,7 +15,7 @@ Para poder demostrar y aprender la creación y consumo de Interfaces de Programa
 |9.|22/10/2024|Creación de una Aplicación Web usando Express|12|✅Finalizado|
 |10.|24/10/2024|Operaciones Básicas de un API a través de los verbos HTTP|12|✅Finalizado|
 |11.|05/11/2024|Creación de formularios para el ingreso, registro y recuperación de contraseñas de los usuarios|13|✅Finalizado|
-|12.|/11/2024| - | - |❇️Activo|
+|12.|23/11/2024|Implementación de validaciones en formulario y duplicidad en base de datos|30|❇️Finalizado|
 
 
 
