@@ -88,7 +88,7 @@ const createNewUser=async(request, response)=>{
     //Mostrar mensaje de confirmación 
     response.render('templates/message', {
         page: 'Cuenta creada correctamente',
-        message: 'Hemos enviado un correo de confirmación a: ---- para la confirmación de la cuenta.'
+        message: `Hemos enviado un correo de confirmación a: ${email} para la confirmación de la cuenta.`
     })
 
 
