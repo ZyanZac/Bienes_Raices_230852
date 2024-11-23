@@ -2,9 +2,9 @@ import Sequelize from 'sequelize';
 import dotenv from 'dotenv'
 dotenv.config({path: '.env'})
 
-const db=new Sequelize(process.env.BD_NOMBRE, process.env.BD_USER, process.env.BD_PASS /*?? ''*/,{ //'bienesraices_node_mvc', 'root', '1234'
-    host: process.env.BD_HOST, //'localhost'
-    port: 3307, //puerto del mysql
+const db=new Sequelize(process.env.BD_NAME, process.env.BD_USER, process.env.BD_PASSWORD /*?? ''*/,{ 
+    host: process.env.BD_DOMAIN, //misitio.com
+    port: process.env.BD_PORT,//puerto del mysql
     dialect: 'mysql',
     define: {
         timestamp: true
@@ -12,10 +12,10 @@ const db=new Sequelize(process.env.BD_NOMBRE, process.env.BD_USER, process.env.B
     pool: {
         max: 5,
         min: 0, 
-        acquire: 30000,
-        idle: 10000
+        acquire: 30000, //Tiempo en milisegundos, 30 segundos que intenta hacer peticiones. Si no contesta, hay error
+        idle: 10000 //Tiempo de inactividad, lo manda a dormir, prioridad baja.
     },
-    operatorsAliases: false
+    operatorsAliases: false //Quita los alias
 });
 
 export default db;

@@ -25,9 +25,17 @@ app.listen(port, ()=>{
 });
 
 
+
+//Habilitar la conexión de lectura desde formularios.
+app.use(express.urlencoded({encoded: true}))
+
 //Conexión a la base de datos
+//Programación asíncrona se hace simultáneamente. La conexión la hace sqlite.
 try{
+    //Verificación de las credenciales del usuario
     await db.authenticate();
+    //Sincronización las tablas con los modelos
+    db.sync();
     console.log('Conexión Correcta a la Base de Datos');
 } catch(error) {
     console.log(error);

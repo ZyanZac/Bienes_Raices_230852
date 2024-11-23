@@ -1,4 +1,6 @@
 import { request, response } from "express"
+import User from '../models/User.js'
+
 
 const formularioLogin=(request, response)=>{
     response.render('auth/login', {
@@ -20,10 +22,20 @@ const formularioPasswordRecovery=(request, response)=>{
 }
 
 
-const registrar=(req, res)=>{
+const createNewUser=async(request, response)=>{
     console.log('Registrando usuario.');
+    console.log(request.body);
+    //Registrando los datos en la base de datos
+    const newUser=await User.create({
+        name: request.body.nombre_usuario, 
+        email: request.body.correo,
+        password: request.body.pass_usuario,
+    });
+    response.json(newUser);
 }
 
 
-export {formularioLogin, formularioRegister, formularioPasswordRecovery, registrar}
+
+
+export {formularioLogin, formularioRegister, formularioPasswordRecovery, createNewUser}
 
