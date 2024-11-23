@@ -3,6 +3,7 @@ import { check, validationResult } from 'express-validator' //check para checar,
 import User from '../models/User.js'
 import { generateID } from '../helpers/tokens.js'
 import { removeTicks } from "sequelize/lib/utils"
+import { emailAfterRegister } from '../helpers/emails.js'
 
 
 const formularioLogin=(request, response)=>{
@@ -85,6 +86,15 @@ const createNewUser=async(request, response)=>{
         token: generateID()
     });
 
+    
+    //Enviar el correo de confirmación
+    emailAfterRegister({
+        name: newUser.name,
+        email: newUser.email,
+        token: newUser.token
+    })
+
+
     //Mostrar mensaje de confirmación 
     response.render('templates/message', {
         page: 'Cuenta creada correctamente',
@@ -97,7 +107,19 @@ const createNewUser=async(request, response)=>{
 }
 
 
-export {formularioLogin, formularioRegister, formularioPasswordRecovery, createNewUser}
+const confirm = (request, response) => {
+    //Validar token - si existe
+    //Confirmar cuenta
+    //Enviar mensje de confirmación de cuenta
+    const {token} = request.params 
+    console.log(`Intentando confirmar la cuenta con el token: ${token}`)
+}
+
+
+
+
+
+export {formularioLogin, formularioRegister, formularioPasswordRecovery, createNewUser, confirm}
 
 
 

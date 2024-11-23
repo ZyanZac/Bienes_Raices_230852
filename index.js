@@ -4,6 +4,9 @@ import express from 'express';
 import generalRoutes from './routes/generalRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import db from './db/config.js';
+import dotenv from 'dotenv'
+
+dotenv.config({path: '.env'})
 
 //const express=require('express'); //Declaración que permitirá entrar al protocolo http y leer páginas. Importar la librería para crear un servidor web
 //Instanciar nuestra aplicación web
@@ -19,7 +22,7 @@ app.use(express.static('./public'));
 
 
 //Configuramos nuestro servidor web 
-const port=3000;
+const port= process.env.BACKEND_PORT;
 app.listen(port, ()=>{
     console.log(`La aplicación ha iniciado en el puerto: ${port}`); //Se levanta el servidor
 });
