@@ -1,8 +1,10 @@
 //ECMA Script 6
 //CommonJS
+//Librerías globales del proyecto
 import express from 'express';
 import csrf from 'csurf'
 import cookieParser from 'cookie-parser';
+//Librerías específicas del proyecto
 import generalRoutes from './routes/generalRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import db from './db/config.js';
