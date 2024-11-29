@@ -71,6 +71,10 @@ router.post("/passwordRecovery", passwordReset)
 
 router.get("/confirmAccount/:token", confirm) //("frontend", backend)
 
+//Actualizar contraseña
+//router.get("/passwordRecovery/:token", verifyTokenPasswordChange)
+//router.post("/passwordRecovery/:token", updatePassword) 
+
 
 
 

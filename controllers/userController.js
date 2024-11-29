@@ -3,7 +3,7 @@ import { check, validationResult } from 'express-validator' //check para checar,
 import User from '../models/User.js'
 import { generateID } from '../helpers/tokens.js'
 import { removeTicks } from "sequelize/lib/utils"
-import { emailAfterRegister } from '../helpers/emails.js'
+import { emailAfterRegister, emailChangePassword } from '../helpers/emails.js'
 import { where } from "sequelize"
 
 
@@ -168,7 +168,7 @@ const confirm = async (request, response) => {
 const passwordReset=async(request, response)=>{
     //Validación
 
-    console.log("Validando los datos para la recuperación de la contraseña.")
+    //console.log("Validando los datos para la recuperación de la contraseña.")
 
     await check('correo').notEmpty().withMessage('El correo electrónico es un campo obligatorio.').isEmail().withMessage('El correo electrónico no tiene el formato de usuario@dominio.extension').run(request);
 
@@ -179,6 +179,7 @@ const passwordReset=async(request, response)=>{
     //Verificar que el resultado esté vacío.
     if(!result.isEmpty()) {
         //Errores
+        console.log("Hay errores")
         return response.render('auth/passwordRecovery', {
             page: 'Error al intentar crear una nueva contraseña.',
             csrfToken: request.csrfToken(),
@@ -189,8 +190,9 @@ const passwordReset=async(request, response)=>{
     //Desestructuración de los parámetros del request
     const {correo:email} = request.body
 
+    //Validación de BACKEND
     //Verificarque el usuario no existe previamente en la base de datos
-    const existingUser=await User.findOne({where: {email}})
+    const existingUser=await User.findOne({where: {email, confirmed:1}})
 
     console.log(existingUser);
 
@@ -199,34 +201,29 @@ const passwordReset=async(request, response)=>{
             page: 'El usuario vinculado a ese correo no existe.',
             csrfToken: request.csrfToken(),
             errors:[{msg: `Por favor, verifica los datos e inténtalo de nuevo.`}],
+            user: {
+                email: email
+            }
         })
     }
 
-
-    //response.json(resultado.array());
-
+    console.log("El usuario si existe en la base de datos")
     //Registrando los datos en la base de datos
-    const newUser=await User.create({ //await que espere
-        name: request.body.nombre_usuario, 
-        date: request.body.date_birth,
-        email: request.body.correo,
-        password: request.body.pass_usuario,
-        token: generateID()
-    });
+    existingUser.password="";
+    existingUser.token=generateID();
+    existingUser.save();
 
-    
     //Enviar el correo de confirmación
-    emailAfterRegister({
-        name: newUser.name,
-        email: newUser.email,
-        token: newUser.token
+    emailChangePassword({
+        name: existingUser.name,
+        email: existingUser.email,
+        token: existingUser.token
     })
 
-
-    //Mostrar mensaje de confirmación 
     response.render('templates/message', {
-        page: 'Cuenta creada correctamente',
-        message: `Hemos enviado un correo de confirmación a: ${email} para la confirmación de la cuenta.`
+        csrfToken:request.csrfToken(),
+        page: 'Solicitud de actualización de contraseña aceptada',
+        msg: `Hemos enviado un correo a ${email} para la actualización de la contraseña.`
     })
 
 }
