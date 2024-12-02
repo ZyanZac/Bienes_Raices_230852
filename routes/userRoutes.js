@@ -2,7 +2,7 @@ import express from 'express';
 
 const router=express.Router();
 
-import {formularioLogin, formularioRegister, formularioPasswordRecovery, createNewUser, confirm, passwordReset} from '../controllers/userController.js';
+import {formularioLogin, formularioRegister, formularioPasswordRecovery, createNewUser, confirm, passwordReset, updatePassword, verifyTokenPasswordChange} from '../controllers/userController.js';
 
 
 
@@ -72,8 +72,8 @@ router.post("/passwordRecovery", passwordReset)
 router.get("/confirmAccount/:token", confirm) //("frontend", backend)
 
 //Actualizar contraseña
-//router.get("/passwordRecovery/:token", verifyTokenPasswordChange)
-//router.post("/passwordRecovery/:token", updatePassword) 
+router.get("/passwordRecovery/:token", verifyTokenPasswordChange)
+router.post("/passwordRecovery/:token", updatePassword) 
 
 
 

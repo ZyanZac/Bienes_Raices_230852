@@ -39,17 +39,17 @@ const emailAfterRegister = async (newUserData) => {
     })
 }
 
-    const emailChangePassword = async ( userData ) => {
-        const transport = nodemailer.createTransport({
-            host: process.env.EMAIL_HOST,
-            port: process.env.EMAIL_PORT,
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        })
+const emailChangePassword = async ( userData ) => {
+    const transport = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        }
+    })
 
-        const {email, name, token} = userData
+    const {email, name, token} = userData
 
     //Enviar el email
     await transport.sendMail({

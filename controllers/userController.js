@@ -1,5 +1,6 @@
 import { request, response } from "express" 
 import { check, validationResult } from 'express-validator' //check para checar, validator para verificar la validación
+import bcrypt from 'bcrypt'
 import User from '../models/User.js'
 import { generateID } from '../helpers/tokens.js'
 import { removeTicks } from "sequelize/lib/utils"
@@ -192,11 +193,11 @@ const passwordReset=async(request, response)=>{
 
     //Validación de BACKEND
     //Verificarque el usuario no existe previamente en la base de datos
-    const existingUser=await User.findOne({where: {email, confirmed:1}})
+    const existingUser=await User.findOne({where: {email, confirmado:1}})
 
     console.log(existingUser);
 
-    if(existingUser){
+    if(!existingUser){
         return response.render("auth/passwordRecovery", {
             page: 'El usuario vinculado a ese correo no existe.',
             csrfToken: request.csrfToken(),
@@ -211,7 +212,7 @@ const passwordReset=async(request, response)=>{
     //Registrando los datos en la base de datos
     existingUser.password="";
     existingUser.token=generateID();
-    existingUser.save();
+    await existingUser.save();
 
     //Enviar el correo de confirmación
     emailChangePassword({
@@ -230,9 +231,86 @@ const passwordReset=async(request, response)=>{
 
 
 
+const verifyTokenPasswordChange=async(request, response)=>{
+
+    const { token } = request.params;
+
+    const user = await User.findOne({ where: { token } })
+    if (!user) {
+        return response.render('auth/confirmAccount', {
+            page: 'Restablece tu contraseña',
+            msg: 'Hubo un error al validar tu información, intenta de nuevo',
+            error: true
+        })
+    }
+
+    response.render('auth/reset-password', {
+        page: 'Restablece la contraseña',
+        csrfToken: request.csrfToken(),
+        msg: 'Por favor, ingresa una nueva contraseña'
+    })
+}
 
 
-export {formularioLogin, formularioRegister, formularioPasswordRecovery, createNewUser, confirm, passwordReset}
+
+const updatePassword=async(request, response)=>{
+
+    //Validar contraseñas
+
+    await check('new_password').notEmpty().withMessage('La contraseña es un campo obligatorio.').isLength({ min:8 }).withMessage('La contraseña debe ser de al menos 8 carácteres.').run(request);
+    await check('confirm_new_password').notEmpty().withMessage('La confirmación de contraseña es un campo obligatorio').equals(request.body.new_password).withMessage('Las contraseñas deben ser iguales.').run(request);
+
+    let result=validationResult(request);
+    let tokenReset=request.params.token;
+
+    if(!result.isEmpty()) {
+        //Errores
+        console.log("Hay errores")
+        return response.render(`auth/passwordRecovery`, {
+            page: 'Error al intentar crear una nueva contraseña.',
+            csrfToken: request.csrfToken(),
+            errors: result.array(),
+            user: {
+                token: tokenReset
+            }
+        })
+    } 
+
+
+    //Actualizar base de datos
+    const tokenOwnewUser=await User.findOne({where: {token: tokenReset}})
+
+    if(!tokenOwnewUser){
+        return response.render("auth/passwordRecovery", {
+            page: 'El token ha expirado.',
+            csrfToken: request.csrfToken(),
+            errors:[{msg: `Por favor, vuelve a ingresar tu correo.`}],
+        })
+    } else {
+        tokenOwnewUser.password=request.body.new_password;
+        tokenOwnewUser.token=null;
+        tokenOwnewUser.save();
+
+        //Responder a una página al usuario
+
+        response.render(`auth/confirmAccount`, {
+            page: 'Completado.',
+            msg: 'Tu contraseña ha sido actualizada',
+            error:false
+        })
+    }
+
+    //Mostrar página de respuesta
+
+}
+
+
+
+
+
+
+
+export {formularioLogin, formularioRegister, formularioPasswordRecovery, createNewUser, confirm, passwordReset, updatePassword, verifyTokenPasswordChange}
 
 
 
