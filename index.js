@@ -1,8 +1,10 @@
 //ECMA Script 6
 //CommonJS
+//Librerías globales del proyecto
 import express from 'express';
 import csrf from 'csurf'
 import cookieParser from 'cookie-parser';
+//Librerías específicas del proyecto
 import generalRoutes from './routes/generalRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import db from './db/config.js';
@@ -13,6 +15,20 @@ dotenv.config({path: '.env'})
 //const express=require('express'); //Declaración que permitirá entrar al protocolo http y leer páginas. Importar la librería para crear un servidor web
 //Instanciar nuestra aplicación web
 const app=express();
+
+
+
+//Habilitar la conexión de lectura desde formularios.
+app.use(express.urlencoded({encoded: true}))
+
+
+//Habilitar Cookie Parser
+app.use(cookieParser())
+
+//Habilitar CSRF
+app.use(csrf({cookie: true}))
+
+
 
 //Habilitar Pug
 app.set('view engine', 'pug') //Quien va a manejar las listas
@@ -28,18 +44,6 @@ const port= process.env.BACKEND_PORT;
 app.listen(port, ()=>{
     console.log(`La aplicación ha iniciado en el puerto: ${port}`); //Se levanta el servidor
 });
-
-
-
-//Habilitar la conexión de lectura desde formularios.
-app.use(express.urlencoded({encoded: true}))
-
-
-//Habilitar Cookie Parser
-app.use(cookieParser())
-
-//Habilitar CSRF
-app.use(csrf({cookie: true}))
 
 
 //Conexión a la base de datos

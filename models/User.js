@@ -32,9 +32,19 @@ const User=db.define('tb_users', {
             //Generación de la clave para el hasheo, se recomiendan 10 rondas de aleatorización para no consumir demasiados recursos de hardware y hacer lento el proceso.
             const salt = await bcrypt.genSalt(10)
             user.password = await bcrypt.hash(user.password, salt);
+        },
+        beforeUpdate: async function (user) {
+            //Generación de la clave para el hasheo, se recomiendan 10 rondas de aleatorización para no consumir demasiados recursos de hardware y hacer lento el proceso.
+            const salt = await bcrypt.genSalt(10)
+            user.password = await bcrypt.hash(user.password, salt);
         }
     }
 });
+
+//Método personalizado
+User.prototype.verifyPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+}
 
 export default User;
 

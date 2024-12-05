@@ -39,4 +39,34 @@ const emailAfterRegister = async (newUserData) => {
     })
 }
 
-export {emailAfterRegister}
+const emailChangePassword = async ( userData ) => {
+    const transport = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        }
+    })
+
+    const {email, name, token} = userData
+
+    //Enviar el email
+    await transport.sendMail({
+        from: 'bienesraices-matricula.com',
+        to: email,
+        subject: 'Solicitud de actualización de constraseña en Bienes Raíces',
+        text: `Por favor, actualiza tu contraseña para ingresar a la plataforma`,
+        html: `<p>Hola, <span style="color: #573280"> ${name}</span>, <br>
+        Haz reportado el olvido o pérdida de tu contraseña para acceder a tu cuenta de Bienes Raíces.
+        <br>
+        <p> Por lo que necesitamos que ingreses a la siguiente liga: <a href="${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}/auth/passwordRecovery/${token}">Actualizar Contraseña</a></p>
+        <br>
+        <p>Si no solicitaste el cambio de contraseña, ignora este mensaje.</p>`
+    })
+
+}
+
+
+
+export {emailAfterRegister, emailChangePassword}

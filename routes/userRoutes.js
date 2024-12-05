@@ -2,7 +2,7 @@ import express from 'express';
 
 const router=express.Router();
 
-import {formularioLogin, formularioRegister, formularioPasswordRecovery, createNewUser, confirm} from '../controllers/userController.js';
+import {formularioLogin, authentic, formularioRegister, formularioPasswordRecovery, createNewUser, confirm, passwordReset, updatePassword, verifyTokenPasswordChange} from '../controllers/userController.js';
 
 
 
@@ -62,13 +62,20 @@ router.delete("/deleteUser/:email", function(request, response){
 
 
 router.get("/login", formularioLogin) //Middelware, quien guía, asigna la tarea a alguien más
+router.post("/login", authentic)
 
 router.get("/createAccount", formularioRegister)
 router.post("/createAccount", createNewUser)
 
 router.get("/passwordRecovery", formularioPasswordRecovery)
+router.post("/passwordRecovery", passwordReset)
 
 router.get("/confirmAccount/:token", confirm) //("frontend", backend)
+
+//Actualizar contraseña
+router.get("/passwordRecovery/:token", verifyTokenPasswordChange)
+router.post("/passwordRecovery/:token", updatePassword) 
+
 
 
 

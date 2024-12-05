@@ -636,12 +636,6 @@ video {
 .font-mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-.font-serif {
-  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-}
-.font-sans {
-  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -682,21 +676,13 @@ video {
   --tw-text-opacity: 1;
   color: rgb(87 50 128 / var(--tw-text-opacity, 1));
 }
-.text-gray-500 {
+.text-cute_purple-300 {
   --tw-text-opacity: 1;
-  color: rgb(107 114 128 / var(--tw-text-opacity, 1));
+  color: rgb(184 205 248 / var(--tw-text-opacity, 1));
 }
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
-}
-.text-cute_purple-200 {
-  --tw-text-opacity: 1;
-  color: rgb(157 141 241 / var(--tw-text-opacity, 1));
-}
-.text-cute_purple-300 {
-  --tw-text-opacity: 1;
-  color: rgb(184 205 248 / var(--tw-text-opacity, 1));
 }
 .decoration-2 {
   text-decoration-thickness: 2px;
