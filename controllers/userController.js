@@ -174,7 +174,7 @@ const createNewUser=async(request, response)=>{
     //Mostrar mensaje de confirmación 
     response.render('templates/message', {
         page: 'Cuenta creada correctamente',
-        message: `Hemos enviado un correo de confirmación a: ${email} para la confirmación de la cuenta.`
+        msg: `Hemos enviado un correo de confirmación a: ${email} para la confirmación de la cuenta.`
     })
 
 
@@ -197,7 +197,7 @@ const confirm = async (request, response) => {
     if(!user){
         return response.render('auth/confirmAccount', {
             page: 'Error al confirmar la cuenta.',
-            message: `Hubo un error al confirmar la cuenta, inténtalo de nuevo.`,
+            msg: `Hubo un error al confirmar la cuenta, inténtalo de nuevo.`,
             error: true
         })
     }
@@ -210,7 +210,7 @@ const confirm = async (request, response) => {
 
     return response.render('auth/confirmAccount', {
             page: 'Cuenta confirmada.',
-            message: `La cuenta se confirmó correctamente. Inicia sesión para acceder a la cuenta.`,
+            msg: `La cuenta se confirmó correctamente. Inicia sesión para acceder a la cuenta.`,
         })
 
 
@@ -250,7 +250,7 @@ const passwordReset=async(request, response)=>{
 
     if(!existingUser){
         return response.render("auth/passwordRecovery", {
-            page: 'El usuario vinculado a ese correo no existe.',
+            page: 'Error al solicitar reestablecimiento.',
             csrfToken: request.csrfToken(),
             errors:[{msg: `Por favor, verifica los datos e inténtalo de nuevo.`}],
             user: {
