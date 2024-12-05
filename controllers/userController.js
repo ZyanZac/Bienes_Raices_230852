@@ -36,13 +36,13 @@ const authentic=async(request, response)=>{
     }
 
     //Comprobar si el usuario existe
-    const { correo:email, pass_usuario:password } = request.body
-    const user = await User.findOne({ where: {email}})
+    const { correo:email, pass_usuario:password } = request.body //Cuando el campo del front y de la base de datos son distintos, se deben poner ambos.
+    const user = await User.findOne({ where: {correo: email}})
     if(!user){
         return response.render('auth/login', {
             page: 'Error al iniciar sesión.',
             csrfToken: request.csrfToken(),
-            errors: [{msg: 'El usuario no existe.'}]
+            errors: [{msg: 'El usuario no existe. Verifica tus datos o crea una cuenta.'}]
         })
     }
 
@@ -262,9 +262,10 @@ const passwordReset=async(request, response)=>{
     //Generar token y enviar email
     console.log("El usuario si existe en la base de datos")
     //Registrando los datos en la base de datos
-    //existingUser.password="";
+    existingUser.password="";
     existingUser.token=generateID();
     await existingUser.save();
+    //existingUser.password=null; //----------------------------------------------------------------------------------------------------
 
     //Enviar el correo de confirmación
     emailChangePassword({

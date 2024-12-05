@@ -17,6 +17,7 @@ Para poder demostrar y aprender la creación y consumo de Interfaces de Programa
 |11.|05/11/2024|Creación de formularios para el ingreso, registro y recuperación de contraseñas de los usuarios|13|✅Finalizado|
 |12.|23/11/2024|Implementación de la funcionalidad del registro de Cuentas de Usuario|30|✅Finalizado|
 |13.|06/12/2024|Implementación de recuperación de contraseñas|20|❇️Finalizado|
+|14.|Fecha|Nombre|Valor|❇️Activo|
 
 
 
