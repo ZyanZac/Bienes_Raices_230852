@@ -61,7 +61,8 @@ const emailChangePassword = async ( userData ) => {
         Haz reportado el olvido o pérdida de tu contraseña para acceder a tu cuenta de Bienes Raíces.
         <br>
         <p> Por lo que necesitamos que ingreses a la siguiente liga: <a href="${process.env.BACKEND_HOST}:${process.env.BACKEND_PORT}/auth/passwordRecovery/${token}">Actualizar Contraseña</a></p>
-        <br>`
+        <br>
+        <p>Si no solicitaste el cambio de contraseña, ignora este mensaje.</p>`
     })
 
 }
