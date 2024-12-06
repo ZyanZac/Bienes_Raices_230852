@@ -37,7 +37,7 @@ const authentic=async(request, response)=>{
 
     //Comprobar si el usuario existe
     const { correo:email, pass_usuario:password } = request.body //Cuando el campo del front y de la base de datos son distintos, se deben poner ambos.
-    const user = await User.findOne({ where: {correo: email}})
+    const user = await User.findOne({ where: {email}})
     if(!user){
         return response.render('auth/login', {
             page: 'Error al iniciar sesión.',
@@ -83,6 +83,7 @@ const formularioPasswordRecovery=(request, response)=>{
 
 
 const createNewUser=async(request, response)=>{
+    
     const mayorEdad = (dateBirth) => {
         const today=new Date();
         const birth=new Date(dateBirth);
