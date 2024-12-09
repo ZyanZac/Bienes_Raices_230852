@@ -1,6 +1,8 @@
 import { request, response } from "express" 
 import { check, validationResult } from 'express-validator' //check para checar, validator para verificar la validación
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+
 import User from '../models/User.js'
 import { generateID } from '../helpers/tokens.js'
 import { removeTicks } from "sequelize/lib/utils"
@@ -63,6 +65,17 @@ const authentic=async(request, response)=>{
             errors: [{msg: 'La contraseña es incorrecta.'}]
         })
     }
+
+    
+    const token=generateJWT(user.id)
+    console.log(token)
+
+    //Almacenar en un cookie
+    return response.cookie('_token', token, {
+        HttpOnly:true,
+        //secure:
+        //sameSite:true
+    }).redirect('/mypropierties')
 }
 
 
@@ -82,8 +95,9 @@ const formularioPasswordRecovery=(request, response)=>{
 
 
 
+
 const createNewUser=async(request, response)=>{
-    
+
     const mayorEdad = (dateBirth) => {
         const today=new Date();
         const birth=new Date(dateBirth);
