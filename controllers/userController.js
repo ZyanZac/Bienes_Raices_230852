@@ -18,8 +18,9 @@ const formularioLogin=(request, response)=>{
     })
 }
 
-const authentic=async(request, response)=>{
+const userAuthentication=async(request, response)=>{
     console.log('-- Autenticando --')
+    console.log(`El usuario está intentando acceder con las credenciales -Correo: ${email}, -Contraseña: ${password}.`)
 
     await check('correo').notEmpty().withMessage('El correo electrónico es un campo obligatorio').run(request);
     await check('pass_usuario').notEmpty().withMessage('La contraseña es un campo obligatorio.').run(request);
@@ -55,16 +56,18 @@ const authentic=async(request, response)=>{
             csrfToken: request.csrfToken(),
             errors: [{msg: 'El usuario no está confirmado. Por favor, confirma la cuenta a través del enlace que se ha enviado al correo.'}]
         })
+    } else {
+       //Revisar la contraseña
+        if(!user.verifyPassword(password)){
+            return response.render('auth/login', {
+                page: 'Error al iniciar sesión.',
+                csrfToken: request.csrfToken(),
+                errors: [{msg: 'La contraseña es incorrecta.'}]
+            })
+        }
     }
 
-    //Revisar la contraseña
-    if(!user.verifyPassword(password)){
-        return response.render('auth/login', {
-            page: 'Error al iniciar sesión.',
-            csrfToken: request.csrfToken(),
-            errors: [{msg: 'La contraseña es incorrecta.'}]
-        })
-    }
+    
 
     
     const token=generateJWT(user.id)
@@ -388,7 +391,7 @@ const updatePassword=async(request, response)=>{
 
 
 
-export {formularioLogin, authentic, formularioRegister, formularioPasswordRecovery, createNewUser, confirm, passwordReset, updatePassword, verifyTokenPasswordChange}
+export {formularioLogin, userAuthentication, formularioRegister, formularioPasswordRecovery, createNewUser, confirm, passwordReset, updatePassword, verifyTokenPasswordChange}
 
 
 
