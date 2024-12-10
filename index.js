@@ -6,6 +6,9 @@ import csrf from 'csurf'
 import cookieParser from 'cookie-parser';
 //Librerías específicas del proyecto
 import generalRoutes from './routes/generalRoutes.js';
+
+import propertyRoutes from './routes/properties.js'
+
 import userRoutes from './routes/userRoutes.js';
 import db from './db/config.js';
 import dotenv from 'dotenv'
@@ -33,6 +36,8 @@ app.use(csrf({cookie: true}))
 //Habilitar Pug
 app.set('view engine', 'pug') //Quien va a manejar las listas
 app.set('views', './views') //Definir dónde va a estar la carpeta de vistas
+
+app.use('/properties', propertyRoutes); //Ruta de propiedades
 
 
 //Definir la carpeta pública de recursos estáticos (assets). Va a poder leer todo lo que se encuentra aquí, mas no escribir.

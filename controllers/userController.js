@@ -2,6 +2,7 @@ import { request, response } from "express"
 import { check, validationResult } from 'express-validator' //check para checar, validator para verificar la validación
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import moment from "moment"
 
 import User from '../models/User.js'
 import { generateID } from '../helpers/tokens.js'
@@ -12,7 +13,7 @@ import { where } from "sequelize"
 
 const formularioLogin=(request, response)=>{
     response.render('auth/login', {
-        //autenticado: true, //JSON
+        autenticado: true, //JSON
         page: "Ingresa a la plataforma",
         csrfToken: request.csrfToken()
     })
@@ -20,12 +21,12 @@ const formularioLogin=(request, response)=>{
 
 const userAuthentication=async(request, response)=>{
     console.log('-- Autenticando --')
-    console.log(`El usuario está intentando acceder con las credenciales -Correo: ${email}, -Contraseña: ${password}.`)
+    //console.log(`El usuario está intentando acceder con las credenciales -Correo: ${email}, -Contraseña: ${password}.`)
 
     await check('correo').notEmpty().withMessage('El correo electrónico es un campo obligatorio').run(request);
     await check('pass_usuario').notEmpty().withMessage('La contraseña es un campo obligatorio.').run(request);
 
-    let result=validationResult(request);
+    const result=validationResult(request);
 
     //return response.json(result.array())
     //Verificar que el resultado esté vacío.
@@ -40,45 +41,58 @@ const userAuthentication=async(request, response)=>{
 
     //Comprobar si el usuario existe
     const { correo:email, pass_usuario:password } = request.body //Cuando el campo del front y de la base de datos son distintos, se deben poner ambos.
-    const user = await User.findOne({ where: {email}})
-    if(!user){
-        return response.render('auth/login', {
-            page: 'Error al iniciar sesión.',
-            csrfToken: request.csrfToken(),
-            errors: [{msg: 'El usuario no existe. Verifica tus datos o crea una cuenta.'}]
-        })
-    }
+   
+    try{
 
-    //Comprobar si el usuario está confirmado
-    if(!user.confirmado){
-        return response.render('auth/login', {
-            page: 'Error al iniciar sesión.',
-            csrfToken: request.csrfToken(),
-            errors: [{msg: 'El usuario no está confirmado. Por favor, confirma la cuenta a través del enlace que se ha enviado al correo.'}]
-        })
-    } else {
-       //Revisar la contraseña
+        const user = await User.findOne({ where: {email} })
+        
+        if(!user){
+            return response.render('auth/login', {
+                page: 'Error al iniciar sesión.',
+                csrfToken: request.csrfToken(),
+                errors: [{msg: 'El usuario no existe. Verifica tus datos o crea una cuenta.'}]
+            });
+        }
+    
+        //Comprobar si el usuario está confirmado
+        if(!user.confirmado){
+            return response.render('auth/login', {
+                page: 'Error al iniciar sesión.',
+                csrfToken: request.csrfToken(),
+                errors: [{msg: 'El usuario no está confirmado. Por favor, confirma la cuenta a través del enlace que se ha enviado al correo.'}]
+            })
+        } 
+           //Revisar la contraseña
         if(!user.verifyPassword(password)){
             return response.render('auth/login', {
                 page: 'Error al iniciar sesión.',
                 csrfToken: request.csrfToken(),
-                errors: [{msg: 'La contraseña es incorrecta.'}]
+                errors: [{msg: 'La contraseña es incorrecta.'}],
             })
+            
+            
         }
+        
+        const token=generateJWT({id:user.id, name:user.name})
+        console.log(token)
+    
+        //Almacenar en un cookie
+        return response.cookie('_token', token, {
+            httpOnly: true
+            //secure:
+            //sameSite:true
+        }).redirect('/properties/myProperties')
+
+
+    } catch(error){
+        console.error(error);
+        return response.status(500).render('auth/login', {
+            page: 'Iniciar Sesión',
+            csrfToken: request.csrfToken(),
+            errors: [{ msg: 'Ocurrió un error inesperado. Intenta de nuevo.' }],
+        });
     }
-
     
-
-    
-    const token=generateJWT(user.id)
-    console.log(token)
-
-    //Almacenar en un cookie
-    return response.cookie('_token', token, {
-        HttpOnly:true,
-        //secure:
-        //sameSite:true
-    }).redirect('/mypropierties')
 }
 
 

@@ -483,11 +483,17 @@ video {
 .mb-1 {
   margin-bottom: 0.25rem;
 }
+.mb-10 {
+  margin-bottom: 2.5rem;
+}
 .mb-2 {
   margin-bottom: 0.5rem;
 }
 .mt-10 {
   margin-top: 2.5rem;
+}
+.mt-20 {
+  margin-top: 5rem;
 }
 .mt-8 {
   margin-top: 2rem;
@@ -664,6 +670,9 @@ video {
 }
 .font-normal {
   font-weight: 400;
+}
+.font-semibold {
+  font-weight: 600;
 }
 .uppercase {
   text-transform: uppercase;
