@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 import moment from "moment"
 
 import User from '../models/User.js'
-import { generateID } from '../helpers/tokens.js'
+import { generateID, generateJWT } from '../helpers/tokens.js'
 import { removeTicks } from "sequelize/lib/utils"
 import { emailAfterRegister, emailChangePassword } from '../helpers/emails.js'
 import { where } from "sequelize"
@@ -41,10 +41,21 @@ const userAuthentication=async(request, response)=>{
 
     //Comprobar si el usuario existe
     const { correo:email, pass_usuario:password } = request.body //Cuando el campo del front y de la base de datos son distintos, se deben poner ambos.
+
+    console.log('Datos recibidos:', {
+        email,
+        password
+    });
    
     try{
 
         const user = await User.findOne({ where: {email} })
+        console.log('Usuario encontrado:', user ? 'Sí' : 'No');
+
+        if (user) {
+            console.log('Usuario confirmado:', user.confirmado ? 'Sí' : 'No');
+            console.log('Resultado verificación contraseña:', user.verifyPassword(password));
+        }
         
         if(!user){
             return response.render('auth/login', {
@@ -62,8 +73,18 @@ const userAuthentication=async(request, response)=>{
                 errors: [{msg: 'El usuario no está confirmado. Por favor, confirma la cuenta a través del enlace que se ha enviado al correo.'}]
             })
         } 
-           //Revisar la contraseña
-        if(!user.verifyPassword(password)){
+
+        // Esperar explícitamente el resultado de la verificación
+        const passwordValid = await user.verifyPassword(password);
+
+        const testHash = await bcrypt.hash(password, 10);
+        console.log('Test de hash directo:');
+        console.log('Password:', password);
+        console.log('New hash:', testHash);
+        console.log('Test compare:', await bcrypt.compare(password, testHash));
+
+        //Revisar la contraseña
+        if(!passwordValid){
             return response.render('auth/login', {
                 page: 'Error al iniciar sesión.',
                 csrfToken: request.csrfToken(),

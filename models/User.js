@@ -28,15 +28,17 @@ const User=db.define('tb_users', {
     confirmado: DataTypes.BOOLEAN
 }, {
     hooks: {
-        beforeCreate: async function (user) {
-            //Generación de la clave para el hasheo, se recomiendan 10 rondas de aleatorización para no consumir demasiados recursos de hardware y hacer lento el proceso.
-            const salt = await bcrypt.genSalt(10)
-            user.password = await bcrypt.hash(user.password, salt);
+        beforeCreate: async function(user) {
+            // Solo hashear si la contraseña no está ya hasheada
+            if (!user.password.startsWith('$2b$')) {
+                const salt = await bcrypt.genSalt(10);
+                user.password = await bcrypt.hash(user.password, salt);
+            }
         },
-        beforeUpdate: async function (user) {
-            if(user.password!==""){
-                //Generación de la clave para el hasheo, se recomiendan 10 rondas de aleatorización para no consumir demasiados recursos de hardware y hacer lento el proceso.
-                const salt = await bcrypt.genSalt(10)
+        beforeUpdate: async function(user) {
+            // Solo hashear si la contraseña cambió y no está ya hasheada
+            if (user.changed('password') && user.password && !user.password.startsWith('$2b$')) {
+                const salt = await bcrypt.genSalt(10);
                 user.password = await bcrypt.hash(user.password, salt);
             }
         }
@@ -46,7 +48,7 @@ const User=db.define('tb_users', {
 //Método personalizado
 User.prototype.verifyPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
-}
+};
 
 export default User;
 
